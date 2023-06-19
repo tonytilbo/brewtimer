@@ -54,34 +54,6 @@ void readTrigger(Trigger *trigger)
   }
 }
 
-char getSingleKey() {
-  
-  char lastKey = '\0';  
-  while (true) 
-  {
-    char key = getKey(0);
-    if (key=='\0' && lastKey == '\0')
-    {
-      return key;
-    }
-    
-    if (key != lastKey) 
-    {
-      if (key=='\0' && lastKey != '\0') 
-      {
-        return lastKey;
-      }
-      lastKey = key;
-    } 
-    delay(30);
-  }
-}
-
-bool isValidInput(int pos, char key)
-{
-  return true;
-}
-
 void runSetupMode(Display *dsp) {
   int digit = 0;
   bool running = true;
@@ -124,11 +96,8 @@ void runSetupMode(Display *dsp) {
 
       if (digit < 4) 
       {
-          if (isValidInput(digit, val))
-          {
-            dsp->setChar(key);
-            values[digit++] = val;  
-          }   
+          dsp->setChar(key);
+          values[digit++] = val;   
       }      
 
     }

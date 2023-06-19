@@ -56,3 +56,26 @@ char getKey(bool state){
     }
     return '\0';
 }
+
+char getSingleKey() {
+  
+  char lastKey = '\0';  
+  while (true) 
+  {
+    char key = getKey(0);
+    if (key=='\0' && lastKey == '\0')
+    {
+      return key;
+    }
+    
+    if (key != lastKey) 
+    {
+      if (key=='\0' && lastKey != '\0') 
+      {
+        return lastKey;
+      }
+      lastKey = key;
+    } 
+    delay(30);
+  }
+}

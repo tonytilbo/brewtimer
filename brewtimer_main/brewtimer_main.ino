@@ -3,6 +3,7 @@
 #include "Keypad.h"
 #include "brewtimer.h"
 #include "Display.h"
+#include "Configuration.h"
 
 const long DISPLAY_TIMEOUT = 60000;   // 1 mins and display will turn itself off
 RUN_MODE runMode = RUN_MODE_ACTIVE;   // startup run mode
@@ -90,9 +91,9 @@ bool isTriggered ()
   return now.hr == trigger.hour && now.min == trigger.min && now.sec <= 5;
 }
 void initSetupMode() {
-    RUN_MODE current = runMode;
-    runSetupMode(&dsp);
-    runMode = current;
+    Configuration config;
+    config.Start();
+    dsp.reset();
 }
 void changeRunMode(RUN_MODE mode) {
   if (runMode != mode) {

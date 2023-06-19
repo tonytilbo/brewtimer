@@ -6,5 +6,5 @@
 void keyInit(void);
 void keyScan(bool state);
 char getKey(bool state);
-
+char getSingleKey();
 #endif

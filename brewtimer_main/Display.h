@@ -89,7 +89,8 @@ public:
     }        
   }
   void reset() 
-  { 
+  {
+    _currentMode = RUN_MODE_UNDEFINED;
     lcd.clear();
   }
 };
