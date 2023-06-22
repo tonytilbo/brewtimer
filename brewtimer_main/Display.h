@@ -21,7 +21,7 @@ public:
     lcd.init();
     on();
   }
-
+  LiquidCrystal_I2C* getLcd() { return &lcd; }
   void setTime(Time time) {
     lcd.setCursor(9, 0);
     lcd.printf("T %02d:%02d", time.hr, time.min);
@@ -55,39 +55,7 @@ public:
     _displayOn = true; 
   }
   
-  /* Setup mode code */
-  void initSetupMode(Trigger trigger) {
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("Set trigger time");
-
-    lcd.setCursor(0, 1);
-    lcd.printf("%02d:%02d", trigger.hour, trigger.min);    
-    lcd.setCursor(0, 1);
-
-    lcd.blink();
-    _currentMode = RUN_MODE_SETUP;
-    _setupCursorPos = 0;
-  }
-  void setChar(char input) {
-      lcd.print(input);
-      scrollRight();
-  }
-  void scrollRight()
-  {
-    if (_setupCursorPos < sizeof(_cursorMap))
-    {
-      lcd.setCursor(_cursorMap[++_setupCursorPos], 1);
-
-    }      
-  }
-  void scrollLeft()
-  {
-    if (_setupCursorPos > 0)
-    {
-      lcd.setCursor(_cursorMap[--_setupCursorPos], 1);
-    }        
-  }
+ 
   void reset() 
   {
     _currentMode = RUN_MODE_UNDEFINED;

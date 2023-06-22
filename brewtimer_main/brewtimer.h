@@ -30,7 +30,6 @@ bool isDigit(char key) {
   }
   return false;
 }
-
 void writeTrigger(Trigger *trigger)
 {
   uint8_t data[4];
@@ -52,77 +51,4 @@ void readTrigger(Trigger *trigger)
     trigger->hour = data[2];
     trigger->min = data[3];    
   }
-}
-
-void runSetupMode(Display *dsp) {
-  int digit = 0;
-  bool running = true;
-  dsp->initSetupMode(trigger);  
-  int8_t values[4] = 
-  { 
-    trigger.hour/10%10, 
-    trigger.hour%10, 
-    trigger.min/10%10, 
-    trigger.min%10
-  };
-  
-  while (running) 
-  {
-    char key = getSingleKey();
-    // command keys
-    if (key == '#' && digit < 4)
-    {
-      // we scroll and if we are on the sec part of the hour
-      // scroll again to get past the separator
-      dsp->scrollRight();
-      digit++;
-      Serial.printf("Scroll right digit:[%2x]", digit);
-      Serial.println();         
-    }  
-    if (key == '*' && digit > 0)
-    {
-      // scroll left
-      dsp->scrollLeft();       
-      digit--;
-      Serial.printf("Scroll left digit:[%2x]", digit);
-      Serial.println();  
-    } 
-
-    // check if this is a digit
-    if (isDigit(key)) {
-      int val = key-48;
-      Serial.printf("Setting digit:[%d] position:[%d]", val, digit);
-      Serial.println(); 
-
-      if (digit < 4) 
-      {
-          dsp->setChar(key);
-          values[digit++] = val;   
-      }      
-
-    }
-
-    // Complete key, sets the value and goes back to menu
-    if (key == 'C') 
-    {      
-       trigger.hour = values[0]*10+values[1];
-       trigger.min = values[2]*10+values[3];
-       writeTrigger(&trigger);  
-      running = false;          
-    }
-
-    if (key == 'D')
-    {
-      // debug key, dumps values to the output
-      Serial.printf("DEBUG: position:[%x] ", digit);
-      Serial.print("value:");
-      for(int i=0;i<4;i++)
-      {
-          Serial.printf("[%d] ", values[i]);        
-      }
-      Serial.println();   
-    }
-
-  }
-  dsp->reset();  
 }

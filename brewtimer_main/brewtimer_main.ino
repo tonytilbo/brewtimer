@@ -91,7 +91,7 @@ bool isTriggered ()
   return now.hr == trigger.hour && now.min == trigger.min && now.sec <= 5;
 }
 void initSetupMode() {
-    Configuration config;
+    Configuration config(dsp.getLcd());
     config.Start();
     dsp.reset();
 }
